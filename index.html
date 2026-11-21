@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PPT 인터랙티브 데모</title>
+<script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+<style>
+  :root { --bg:#0f1115; --card:#1a1d24; --fg:#f2f2f2; --mute:#9aa0aa; --acc:#ff5a36; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--fg);
+    font-family:-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif; }
+  .wrap { height:100%; display:grid; grid-template-columns:1fr 1fr; gap:16px; padding:20px; }
+  .card { background:var(--card); border-radius:14px; padding:18px; display:flex; flex-direction:column; gap:12px; }
+  h2 { margin:0; font-size:18px; }
+  .mute { color:var(--mute); font-size:13px; }
+  .big { font-size:56px; font-weight:800; color:var(--acc); line-height:1; }
+  button { background:var(--acc); color:#fff; border:0; border-radius:10px; padding:10px 14px;
+    font-size:15px; font-weight:700; cursor:pointer; }
+  button.ghost { background:#2a2e38; }
+  input[type=range] { width:100%; accent-color:var(--acc); }
+  .bars { flex:1; display:flex; align-items:flex-end; gap:8px; min-height:120px; }
+  .bar { flex:1; background:var(--acc); border-radius:6px 6px 0 0; transition:height .35s ease; }
+  .swatches { display:flex; gap:8px; }
+  .sw { width:34px; height:34px; border-radius:50%; cursor:pointer; border:3px solid transparent; }
+  .sw.on { border-color:#fff; }
+  .shoe { flex:1; display:flex; align-items:center; justify-content:center; }
+  svg path { transition:fill .3s; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h2>① 클릭 카운터</h2>
+    <div class="mute">슬라이드쇼 중에 눌러 보세요</div>
+    <div class="big" id="cnt">0</div>
+    <div style="display:flex;gap:8px">
+      <button onclick="add(1)">+1</button>
+      <button class="ghost" onclick="add(-cnt)">초기화</button>
+    </div>
+    <h2 style="margin-top:8px">② 슬라이더 → 차트</h2>
+    <input type="range" min="10" max="100" value="50" id="rg" oninput="draw()">
+    <div class="bars" id="bars"></div>
+  </div>
+  <div class="card">
+    <h2>③ 컬러 선택 (CAD 미리보기 느낌)</h2>
+    <div class="swatches" id="sws"></div>
+    <div class="shoe">
+      <svg viewBox="0 0 300 140" width="100%">
+        <path id="upper" d="M20 100 Q40 40 120 45 L170 70 Q230 75 280 95 L280 110 L20 110 Z" fill="#ff5a36"/>
+        <path id="sole" d="M15 110 L285 110 Q285 128 265 128 L30 128 Q15 128 15 110 Z" fill="#f2f2f2"/>
+        <path d="M95 52 L150 68" stroke="#fff" stroke-width="3" fill="none" opacity=".6"/>
+      </svg>
+    </div>
+    <div class="mute" id="info">Upper: #ff5a36</div>
+    <div class="mute" id="env">환경 확인 중…</div>
+  </div>
+</div>
+<script>
+  let cnt = 0;
+  function add(n){ cnt += n; document.getElementById('cnt').textContent = cnt; }
+  function draw(){
+    const v = +document.getElementById('rg').value, b = document.getElementById('bars');
+    b.innerHTML = '';
+    [0.4,0.7,1,0.8,0.55,0.9].forEach(k=>{
+      const d=document.createElement('div'); d.className='bar'; d.style.height=(v*k)+'%'; b.appendChild(d);
+    });
+  }
+  const colors = ['#ff5a36','#2f6bff','#19b37a','#f5c518','#111111','#c9c9c9'];
+  const sws = document.getElementById('sws');
+  colors.forEach((c,i)=>{
+    const s=document.createElement('div'); s.className='sw'+(i?'':' on'); s.style.background=c;
+    s.onclick=()=>{ document.querySelectorAll('.sw').forEach(x=>x.classList.remove('on')); s.classList.add('on');
+      document.getElementById('upper').setAttribute('fill',c); document.getElementById('info').textContent='Upper: '+c; };
+    sws.appendChild(s);
+  });
+  draw();
+  const env = document.getElementById('env');
+  if (window.Office && Office.onReady) {
+    Office.onReady(info => { env.textContent = info.host ? 'PowerPoint 안에서 실행 중 ✅ ('+info.host+')' : '브라우저에서 실행 중'; });
+  } else { env.textContent = '브라우저에서 실행 중'; }
+</script>
+</body>
+</html>

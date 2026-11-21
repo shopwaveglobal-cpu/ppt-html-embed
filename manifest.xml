@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:type="ContentApp">
+  <Id>dbecfc0c-8ac0-42a1-bac8-72f88b412abf</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>1im.lab</ProviderName>
+  <DefaultLocale>ko-KR</DefaultLocale>
+  <DisplayName DefaultValue="HTML 슬라이드 뷰어"/>
+  <Description DefaultValue="슬라이드 안에 인터랙티브 HTML을 띄웁니다."/>
+  <IconUrl DefaultValue="https://avatars.githubusercontent.com/u/284307757?s=64&amp;v=4"/>
+  <HighResolutionIconUrl DefaultValue="https://avatars.githubusercontent.com/u/284307757?s=64&amp;v=4"/>
+  <SupportUrl DefaultValue="https://github.com/shopwaveglobal-cpu/ppt-html-embed"/>
+  <AppDomains>
+    <AppDomain>https://raw.githack.com</AppDomain>
+  </AppDomains>
+  <Hosts>
+    <Host Name="Presentation"/>
+  </Hosts>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://raw.githack.com/shopwaveglobal-cpu/ppt-html-embed/main/index.html"/>
+    <RequestedWidth>900</RequestedWidth>
+    <RequestedHeight>500</RequestedHeight>
+  </DefaultSettings>
+  <Permissions>ReadDocument</Permissions>
+  <AllowSnapshot>true</AllowSnapshot>
+</OfficeApp>
