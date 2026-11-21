@@ -6,7 +6,7 @@
   <Version>1.0.0.0</Version>
   <ProviderName>1im.lab</ProviderName>
   <DefaultLocale>ko-KR</DefaultLocale>
-  <DisplayName DefaultValue="HTML 슬라이드 뷰어"/>
+  <DisplayName DefaultValue="이림 TIME CREATOR"/>
   <Description DefaultValue="슬라이드 안에 인터랙티브 HTML을 띄웁니다."/>
   <IconUrl DefaultValue="https://avatars.githubusercontent.com/u/284307757?s=64&amp;v=4"/>
   <HighResolutionIconUrl DefaultValue="https://avatars.githubusercontent.com/u/284307757?s=64&amp;v=4"/>
@@ -19,8 +19,8 @@
   </Hosts>
   <DefaultSettings>
     <SourceLocation DefaultValue="https://raw.githack.com/shopwaveglobal-cpu/ppt-html-embed/main/index.html"/>
-    <RequestedWidth>900</RequestedWidth>
-    <RequestedHeight>500</RequestedHeight>
+    <RequestedWidth>1280</RequestedWidth>
+    <RequestedHeight>720</RequestedHeight>
   </DefaultSettings>
   <Permissions>ReadDocument</Permissions>
   <AllowSnapshot>true</AllowSnapshot>
