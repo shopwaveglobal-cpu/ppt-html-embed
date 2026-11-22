@@ -77,6 +77,35 @@
     view.removeAttribute('src'); view.srcdoc = html; view.style.display = 'block';
     hasContent = true; showSetup(false);
   }
+
+  /* ---------- 키보드 포커스 도우미 ----------
+     HTML이 포커스가 없을 때의 첫 클릭은 "키보드 연결"로만 쓰고 HTML에 전달하지 않음.
+     포커스가 있으면 왼쪽 위에 작은 표시가 잠깐 뜸. */
+  var badge = document.createElement('div');
+  badge.style.cssText = 'position:absolute;left:10px;top:10px;z-index:20;padding:5px 10px;border-radius:14px;' +
+    'background:rgba(0,0,0,.6);color:#fff;font-size:12px;pointer-events:none;opacity:0;transition:opacity .4s';
+  document.body.appendChild(badge);
+  var badgeT = null;
+  function flash(t){ badge.textContent = t; badge.style.opacity = 1; clearTimeout(badgeT); badgeT = setTimeout(function(){ badge.style.opacity = 0; }, 1600); }
+
+  view.addEventListener('load', function(){
+    var w, d;
+    try { w = view.contentWindow; d = view.contentDocument; if (!d || !d.body) return; } catch(e){ return; } // URL 모드(다른 도메인)는 건너뜀
+    var hadFocus = true;
+    d.addEventListener('pointerdown', function(){ hadFocus = d.hasFocus(); }, true);
+    d.addEventListener('mousedown', function(){ if (hadFocus === undefined) hadFocus = d.hasFocus(); }, true);
+    d.addEventListener('click', function(e){
+      if (!hadFocus){
+        e.stopImmediatePropagation(); e.preventDefault();
+        try { w.focus(); } catch(_){}
+        flash('⌨ 키보드 연결됨 — 이제 화살표로 넘기세요');
+      }
+      hadFocus = true;
+    }, true);
+    w.addEventListener('focus', function(){ flash('⌨ 키보드 연결됨'); });
+    w.addEventListener('blur', function(){ flash('⌨ 키보드 해제됨 (화면을 한 번 클릭하면 다시 연결)'); });
+    try { w.focus(); } catch(e){}   // 가능하면 자동으로 포커스 시도
+  });
   function showUrl(u){
     view.removeAttribute('srcdoc'); view.src = u; view.style.display = 'block';
     hasContent = true; showSetup(false);
