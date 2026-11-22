@@ -1,19 +1,20 @@
-# ppt-html-embed
+# 1im HTML Player (ppt-html-embed)
 
-PowerPoint 슬라이드 안에 인터랙티브 HTML(`index.html`)을 띄우는 콘텐츠 추가 기능입니다. 발표 중 인터넷 연결이 필요합니다.
+PowerPoint 슬라이드 안에 인터랙티브 HTML을 넣어 발표 중에 클릭·입력·애니메이션이 그대로 동작하게 하는 콘텐츠 추가 기능입니다.
+HTML 파일을 끌어놓으면 **내용이 PPTX 파일 안에 저장**되므로, 새 HTML을 만들 때마다 따로 올릴 필요가 없습니다.
 
-## Windows
-1. 이 저장소의 `install-windows.cmd`를 내려받아 더블클릭합니다. (SmartScreen 경고가 뜨면 "추가 정보 → 실행")
-2. PowerPoint를 완전히 종료 후 다시 엽니다.
-3. 삽입 → 추가 기능 → 내 추가 기능 → **개발자 추가 기능** → "이림 TIME CREATOR"
+## 설치 (PC마다 한 번)
+[1im-PPT-HTML-Kit.zip](1im-PPT-HTML-Kit.zip) 내려받아 압축 해제 →
+- Windows: `install-windows.cmd` 더블클릭
+- Mac: `install-mac.command` 우클릭 → 열기
 
-요구 사항: Microsoft 365 또는 Office 2021 이상 (Edge WebView2 사용). 제거는 `uninstall-windows.cmd`.
+PowerPoint 재시작 → 삽입 → 추가 기능 → 내 추가 기능 → 개발자 추가 기능 → **1im HTML Player**
 
-## Mac
-```bash
-mkdir -p ~/Library/Containers/com.microsoft.Powerpoint/Data/Documents/wef && curl -fsSL https://raw.githubusercontent.com/shopwaveglobal-cpu/ppt-html-embed/main/manifest.xml -o ~/Library/Containers/com.microsoft.Powerpoint/Data/Documents/wef/manifest.xml
-```
-PowerPoint 재시작 → 삽입 → 추가 기능 → 내 추가 기능 → 개발자 추가 기능.
+## 사용
+창을 슬라이드 크기로 늘리고 HTML 파일을 끌어놓기. 바꾸려면 ⚙ (슬라이드쇼에선 숨김).
+자세한 내용은 `사용법.txt`.
 
-## 내용 수정
-`index.html`만 고치면 모든 PC에 반영됩니다(캐시로 몇 분 지연 가능).
+## 구조
+- `index.html` : 플레이어 (모든 슬라이드 공용)
+- `manifest.xml` : 추가 기능 등록 정보
+- `examples/` : 예시 HTML

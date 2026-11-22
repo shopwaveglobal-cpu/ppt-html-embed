@@ -24,6 +24,6 @@ if errorlevel 1 (
 echo [3/3] Done.
 echo.
 echo Close PowerPoint completely, reopen it, then:
-echo   Insert ^> Add-ins ^> My Add-ins ^> Developer Add-ins ^> "1im TIME CREATOR"
+echo   Insert ^> Add-ins ^> My Add-ins ^> Developer Add-ins ^> "1im HTML Player"
 echo.
 pause

@@ -6,8 +6,8 @@
   <Version>1.0.0.0</Version>
   <ProviderName>1im.lab</ProviderName>
   <DefaultLocale>ko-KR</DefaultLocale>
-  <DisplayName DefaultValue="이림 TIME CREATOR"/>
-  <Description DefaultValue="슬라이드 안에 인터랙티브 HTML을 띄웁니다."/>
+  <DisplayName DefaultValue="1im HTML Player"/>
+  <Description DefaultValue="슬라이드에 HTML 파일을 넣어 발표 중 인터랙티브하게 실행합니다. 내용은 PPT 파일 안에 저장됩니다."/>
   <IconUrl DefaultValue="https://avatars.githubusercontent.com/u/284307757?s=64&amp;v=4"/>
   <HighResolutionIconUrl DefaultValue="https://avatars.githubusercontent.com/u/284307757?s=64&amp;v=4"/>
   <SupportUrl DefaultValue="https://github.com/shopwaveglobal-cpu/ppt-html-embed"/>
