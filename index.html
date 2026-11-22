@@ -123,15 +123,28 @@
     return bytes;
   }
   function pack(text){
-    if (!window.CompressionStream) return Promise.resolve({gz:false, data:text});
+    if (!window.CompressionStream || !Blob.prototype.stream) return Promise.resolve({gz:false, data:text});
     var stream = new Blob([text]).stream().pipeThrough(new CompressionStream('gzip'));
     return new Response(stream).arrayBuffer().then(function(b){ return {gz:true, data:toB64(b)}; })
       .catch(function(){ return {gz:false, data:text}; });
   }
+  function loadPako(){
+    return new Promise(function(res, rej){
+      if (window.pako) return res(window.pako);
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako_inflate.min.js';
+      s.onload = function(){ res(window.pako); }; s.onerror = rej;
+      document.head.appendChild(s);
+    });
+  }
   function unpack(gz, data){
     if (!gz) return Promise.resolve(data);
-    var stream = new Blob([fromB64(data)]).stream().pipeThrough(new DecompressionStream('gzip'));
-    return new Response(stream).text();
+    if (window.DecompressionStream && window.Blob && Blob.prototype.stream){
+      var stream = new Blob([fromB64(data)]).stream().pipeThrough(new DecompressionStream('gzip'));
+      return new Response(stream).text();
+    }
+    // 구형 엔진(Office 2019 등) 대비: pako로 압축 해제
+    return loadPako().then(function(p){ return p.ungzip(fromB64(data), {to:'string'}); });
   }
 
   /* ---------- 문서(PPTX)에 저장 ---------- */

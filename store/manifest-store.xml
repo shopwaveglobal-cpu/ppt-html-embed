@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:type="ContentApp">
+  <Id>d826ab43-729e-4601-ad7e-d0cb827f2302</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>{{PUBLISHER}}</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="1im HTML Player">
+    <Override Locale="ko-KR" Value="1im HTML Player"/>
+  </DisplayName>
+  <Description DefaultValue="Drop an HTML file onto a slide and present it live: clicks, typing and animations keep working in Slide Show. The HTML is saved inside the PowerPoint file.">
+    <Override Locale="ko-KR" Value="슬라이드에 HTML 파일을 넣어 발표 중에 클릭·입력·애니메이션이 그대로 동작합니다. HTML은 PowerPoint 파일 안에 저장됩니다."/>
+  </Description>
+  <IconUrl DefaultValue="https://shopwaveglobal-cpu.github.io/ppt-html-embed/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://shopwaveglobal-cpu.github.io/ppt-html-embed/assets/icon-64.png"/>
+  <SupportUrl DefaultValue="https://shopwaveglobal-cpu.github.io/ppt-html-embed/support.html"/>
+  <AppDomains>
+    <AppDomain>https://shopwaveglobal-cpu.github.io</AppDomain>
+  </AppDomains>
+  <Hosts>
+    <Host Name="Presentation"/>
+  </Hosts>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://shopwaveglobal-cpu.github.io/ppt-html-embed/index.html"/>
+    <RequestedWidth>1280</RequestedWidth>
+    <RequestedHeight>720</RequestedHeight>
+  </DefaultSettings>
+  <Permissions>ReadDocument</Permissions>
+  <AllowSnapshot>true</AllowSnapshot>
+</OfficeApp>

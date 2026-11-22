@@ -5,20 +5,24 @@
   <Id>dbecfc0c-8ac0-42a1-bac8-72f88b412abf</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>1im.lab</ProviderName>
-  <DefaultLocale>ko-KR</DefaultLocale>
-  <DisplayName DefaultValue="1im HTML Player"/>
-  <Description DefaultValue="슬라이드에 HTML 파일을 넣어 발표 중 인터랙티브하게 실행합니다. 내용은 PPT 파일 안에 저장됩니다."/>
-  <IconUrl DefaultValue="https://avatars.githubusercontent.com/u/284307757?s=64&amp;v=4"/>
-  <HighResolutionIconUrl DefaultValue="https://avatars.githubusercontent.com/u/284307757?s=64&amp;v=4"/>
-  <SupportUrl DefaultValue="https://github.com/shopwaveglobal-cpu/ppt-html-embed"/>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="1im HTML Player">
+    <Override Locale="ko-KR" Value="1im HTML Player"/>
+  </DisplayName>
+  <Description DefaultValue="Drop an HTML file onto a slide and present it live: clicks, typing and animations keep working in Slide Show. The HTML is saved inside the PowerPoint file.">
+    <Override Locale="ko-KR" Value="슬라이드에 HTML 파일을 넣어 발표 중에 클릭·입력·애니메이션이 그대로 동작합니다. HTML은 PowerPoint 파일 안에 저장됩니다."/>
+  </Description>
+  <IconUrl DefaultValue="https://shopwaveglobal-cpu.github.io/ppt-html-embed/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://shopwaveglobal-cpu.github.io/ppt-html-embed/assets/icon-64.png"/>
+  <SupportUrl DefaultValue="https://shopwaveglobal-cpu.github.io/ppt-html-embed/support.html"/>
   <AppDomains>
-    <AppDomain>https://raw.githack.com</AppDomain>
+    <AppDomain>https://shopwaveglobal-cpu.github.io</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Presentation"/>
   </Hosts>
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://raw.githack.com/shopwaveglobal-cpu/ppt-html-embed/main/index.html"/>
+    <SourceLocation DefaultValue="https://shopwaveglobal-cpu.github.io/ppt-html-embed/index.html"/>
     <RequestedWidth>1280</RequestedWidth>
     <RequestedHeight>720</RequestedHeight>
   </DefaultSettings>
