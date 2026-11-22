@@ -1,0 +1,21 @@
+name: Validate manifests
+on:
+  push:
+    paths: ["**/*.xml", "scripts/check-manifest.py", ".github/workflows/validate-manifest.yml"]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Offline schema rules (size 32~1000, order, https, version)
+        run: python3 scripts/check-manifest.py manifest.xml store/manifest-store.xml
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - name: Official validator (Microsoft service)
+        run: |
+          npx -y office-addin-manifest validate manifest.xml
+          npx -y office-addin-manifest validate store/manifest-store.xml

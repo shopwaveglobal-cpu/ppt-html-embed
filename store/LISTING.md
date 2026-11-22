@@ -1,7 +1,7 @@
 # Microsoft Marketplace 제출 자료 — 1im HTML Player
 
-`{{PUBLISHER}}` / `{{CONTACT_EMAIL}}` 는 Partner Center 게시자 이름·연락처로 바꿔야 함
-(manifest-store.xml, ../privacy.html, ../support.html 모두)
+`{{PUBLISHER}}`(manifest-store.xml ProviderName)를 Partner Center 게시자 이름으로 바꿔야 함. 공개 페이지 문의처는 현재 인스타 @1im.lab
+(스토어 심사에 이메일이 필요하면 privacy.html/support.html에 추가)
 
 ## 기본 정보
 - 이름: 1im HTML Player
