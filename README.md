@@ -116,5 +116,5 @@ Web Viewer가 2024년 12월 종료된 뒤 "이제 PPT에 HTML은 못 넣는다"�
 
 <p align="center">
   Made by <a href="https://www.instagram.com/1im.lab/">이림 @1im.lab</a> — 적게 일하고 더 많이 남기는 방법 · TIME CREATOR<br>
-  <sub>Code: MIT License. The 1im logo/icons (<code>assets/</code>) and the sample content in <code>examples/</code> are © 이림 and not covered by the MIT license.<br>Not affiliated with Microsoft.</sub>
+  <sub>Code: MIT License. The 1im logo/icons (<code>assets/</code>) and the sample content in <code>examples/</code> are © 이림 and not covered by the MIT license (see <a href="NOTICE">NOTICE</a>).<br>Not affiliated with Microsoft.</sub>
 </p>
