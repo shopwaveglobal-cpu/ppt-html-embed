@@ -29,7 +29,7 @@ Insert the add-in on a slide, drop an HTML file onto it, and present. Buttons, s
 • The ⚙ button (edit view only) replaces the content
 • No sign-in, no account, no data collection. Free.
 
-Requirements: internet connection while presenting; PowerPoint for Microsoft 365, PowerPoint 2021+, PowerPoint for Mac, or PowerPoint on the web.
+Requirements: internet connection while presenting; PowerPoint on the web, or PowerPoint for Microsoft 365 / 2021 or later (Windows, Mac). Office 2019 and earlier are not supported.
 
 KO:
 1im HTML Player는 PowerPoint 안에서 인터랙티브 HTML을 그대로 발표할 수 있게 해 줍니다.
@@ -42,7 +42,7 @@ KO:
 • ⚙ 버튼(편집 화면에서만 보임)으로 내용 교체
 • 로그인·계정·데이터 수집 없음. 무료.
 
-필요 조건: 발표 중 인터넷 연결, Microsoft 365 / PowerPoint 2021 이상 / Mac / 웹 PowerPoint
+필요 조건: 발표 중 인터넷 연결, 웹 PowerPoint 또는 Microsoft 365 / 2021 이상 (Windows·Mac). Office 2019 이하 미지원
 
 ## 심사자용 테스트 안내 (Testing notes)
 1. Open PowerPoint (web or desktop) and create a blank presentation.
