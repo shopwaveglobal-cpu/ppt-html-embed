@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ContentApp">
+  <Id>d3611a67-a66b-4c1c-8b7d-7c2daba0ad1a</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>1im</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="1im HTML Player 2019"/>
+  <Description DefaultValue="Interactive HTML player for slides."/>
+  <IconUrl DefaultValue="https://shopwaveglobal-cpu.github.io/ppt-html-embed/assets/icon-32.png"/>
+  <SupportUrl DefaultValue="https://shopwaveglobal-cpu.github.io/ppt-html-embed/support.html"/>
+  <Hosts>
+    <Host Name="Presentation"/>
+  </Hosts>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://shopwaveglobal-cpu.github.io/ppt-html-embed/index.html"/>
+    <RequestedWidth>800</RequestedWidth>
+    <RequestedHeight>450</RequestedHeight>
+  </DefaultSettings>
+  <Permissions>ReadWriteDocument</Permissions>
+</OfficeApp>
