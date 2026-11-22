@@ -47,6 +47,7 @@
       <button id="useUrl">불러오기</button>
     </div>
     <div id="status"></div>
+    <div id="engine" style="font-size:11px;color:#777;margin-top:8px"></div>
     <div class="foot">
       <button class="ghost" id="cancel" style="display:none">닫기</button>
       <span style="font-size:11px;color:#666">슬라이드쇼에서는 ⚙ 버튼이 숨겨집니다</span>
@@ -64,6 +65,18 @@
   var cancelBtn = document.getElementById('cancel');
   var inOffice = false, hasContent = false, isReadView = false;
 
+  var UA = navigator.userAgent;
+  var ENGINE = document.documentMode ? 'IE11' : (/Edge\/\d+/.test(UA) ? 'Edge(구형)' : (/Edg\//.test(UA) ? 'Edge WebView2' : (/Mac OS X/.test(UA) && !/Chrome/.test(UA) ? 'Safari(WebKit)' : 'Chromium')));
+  var OLD_ENGINE = (ENGINE === 'IE11' || ENGINE === 'Edge(구형)');
+  (function(){
+    var el = document.getElementById('engine');
+    if (!el) return;
+    el.textContent = '실행 엔진: ' + ENGINE;
+    if (OLD_ENGINE){
+      el.style.color = '#ff6b6b';
+      el.textContent += ' — 이 PowerPoint는 구형 엔진으로 추가 기능을 실행합니다. 최신 문법으로 만든 HTML(대부분의 AI 생성 HTML)은 동작하지 않을 수 있습니다. Microsoft 365 / Office 2021 이상 또는 웹 PowerPoint를 권장합니다.';
+    }
+  })();
   function msg(t, err){ statusEl.textContent = t || ''; statusEl.className = err ? 'err' : ''; }
   function showSetup(on){
     setup.style.display = on ? 'flex' : 'none';
@@ -73,8 +86,14 @@
   function updateGear(){
     gear.style.display = (hasContent && !isReadView && setup.style.display !== 'flex') ? 'block' : 'none';
   }
+  var SRCDOC = ('srcdoc' in document.createElement('iframe'));
   function showHtml(html){
-    view.removeAttribute('src'); view.srcdoc = html; view.style.display = 'block';
+    view.style.display = 'block';
+    if (SRCDOC){ view.removeAttribute('src'); view.srcdoc = html; }
+    else {
+      try { var d = view.contentWindow.document; d.open(); d.write(html); d.close(); setTimeout(attachFocus, 50); }
+      catch(e){ msg('HTML을 표시하지 못했습니다: ' + e.message, true); return; }
+    }
     hasContent = true; showSetup(false);
   }
 
@@ -88,9 +107,9 @@
   var badgeT = null;
   function flash(t){ badge.textContent = t; badge.style.opacity = 1; clearTimeout(badgeT); badgeT = setTimeout(function(){ badge.style.opacity = 0; }, 1600); }
 
-  view.addEventListener('load', function(){
+  function attachFocus(){
     var w, d;
-    try { w = view.contentWindow; d = view.contentDocument; if (!d || !d.body) return; } catch(e){ return; } // URL 모드(다른 도메인)는 건너뜀
+    try { w = view.contentWindow; d = w.document; if (!d || !d.body || d.__1imFocus) return; d.__1imFocus = true; } catch(e){ return; } // URL 모드(다른 도메인)는 건너뜀
     var hadFocus = true;
     d.addEventListener('pointerdown', function(){ hadFocus = d.hasFocus(); }, true);
     d.addEventListener('mousedown', function(){ if (hadFocus === undefined) hadFocus = d.hasFocus(); }, true);
@@ -105,7 +124,8 @@
     w.addEventListener('focus', function(){ flash('⌨ 키보드 연결됨'); });
     w.addEventListener('blur', function(){ flash('⌨ 키보드 해제됨 (화면을 한 번 클릭하면 다시 연결)'); });
     try { w.focus(); } catch(e){}   // 가능하면 자동으로 포커스 시도
-  });
+  }
+  view.addEventListener('load', attachFocus);
   function showUrl(u){
     view.removeAttribute('srcdoc'); view.src = u; view.style.display = 'block';
     hasContent = true; showSetup(false);
@@ -122,29 +142,30 @@
     for (var i = 0; i < s.length; i++) bytes[i] = s.charCodeAt(i);
     return bytes;
   }
-  function pack(text){
-    if (!window.CompressionStream || !Blob.prototype.stream) return Promise.resolve({gz:false, data:text});
-    var stream = new Blob([text]).stream().pipeThrough(new CompressionStream('gzip'));
-    return new Response(stream).arrayBuffer().then(function(b){ return {gz:true, data:toB64(b)}; })
-      .catch(function(){ return {gz:false, data:text}; });
+  function pack(text, cb){
+    if (!window.CompressionStream || !window.Promise || !Blob.prototype.stream){ cb({gz:false, data:text}); return; }
+    try {
+      var stream = new Blob([text]).stream().pipeThrough(new CompressionStream('gzip'));
+      new Response(stream).arrayBuffer().then(function(b){ cb({gz:true, data:toB64(b)}); }, function(){ cb({gz:false, data:text}); });
+    } catch(e){ cb({gz:false, data:text}); }
   }
-  function loadPako(){
-    return new Promise(function(res, rej){
-      if (window.pako) return res(window.pako);
-      var s = document.createElement('script');
-      s.src = 'https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako_inflate.min.js';
-      s.onload = function(){ res(window.pako); }; s.onerror = rej;
-      document.head.appendChild(s);
-    });
+  function loadPako(ok, fail){
+    if (window.pako) return ok(window.pako);
+    var s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako_inflate.min.js';
+    s.onload = function(){ window.pako ? ok(window.pako) : fail(); }; s.onerror = fail;
+    document.head.appendChild(s);
   }
-  function unpack(gz, data){
-    if (!gz) return Promise.resolve(data);
-    if (window.DecompressionStream && window.Blob && Blob.prototype.stream){
-      var stream = new Blob([fromB64(data)]).stream().pipeThrough(new DecompressionStream('gzip'));
-      return new Response(stream).text();
-    }
+  function unpack(gz, data, ok, fail){
+    if (!gz) return ok(data);
+    try {
+      if (window.DecompressionStream && window.Promise && Blob.prototype.stream){
+        var stream = new Blob([fromB64(data)]).stream().pipeThrough(new DecompressionStream('gzip'));
+        new Response(stream).text().then(ok, fail); return;
+      }
+    } catch(e){}
     // 구형 엔진(Office 2019 등) 대비: pako로 압축 해제
-    return loadPako().then(function(p){ return p.ungzip(fromB64(data), {to:'string'}); });
+    loadPako(function(p){ try { ok(p.ungzip(fromB64(data), {to:'string'})); } catch(e){ fail(e); } }, fail);
   }
 
   /* ---------- 문서(PPTX)에 저장 ---------- */
@@ -155,15 +176,20 @@
     ['n','gz','mode','url','name'].forEach(function(k){ S().remove(k); });
   }
   function saveAll(cb){
-    S().saveAsync(function(r){
-      if (r.status === Office.AsyncResultStatus.Succeeded) cb(null);
-      else cb(r.error ? r.error.message : '저장 실패');
-    });
+    var done = false;
+    var t = setTimeout(function(){ if (!done){ done = true; cb('PowerPoint가 응답하지 않습니다 (시간 초과)'); } }, 10000);
+    try {
+      S().saveAsync(function(r){
+        if (done) return; done = true; clearTimeout(t);
+        if (r.status === Office.AsyncResultStatus.Succeeded) cb(null);
+        else cb(r.error ? r.error.message : '저장 실패');
+      });
+    } catch(e){ done = true; clearTimeout(t); cb(e.message); }
   }
   function saveHtml(text, name){
     if (!inOffice){ showHtml(text); return; }
     msg('저장 중…');
-    pack(text).then(function(p){
+    pack(text, function(p){
       clearChunks();
       var n = Math.ceil(p.data.length / CHUNK);
       for (var i = 0; i < n; i++) S().set('c' + i, p.data.substr(i * CHUNK, CHUNK));
@@ -186,8 +212,8 @@
     if (mode === 'html'){
       var n = S().get('n') || 0, parts = [];
       for (var i = 0; i < n; i++) parts.push(S().get('c' + i) || '');
-      unpack(S().get('gz'), parts.join('')).then(showHtml)
-        .catch(function(){ showSetup(true); msg('저장된 HTML을 읽지 못했습니다. 다시 넣어 주세요.', true); });
+      unpack(S().get('gz'), parts.join(''), showHtml,
+        function(){ showSetup(true); msg('저장된 HTML을 읽지 못했습니다. 다시 넣어 주세요.', true); });
       return;
     }
     showSetup(true);
